@@ -1,0 +1,68 @@
+//service Hello on "127.0.0.1:8090"
+totalRequestsRecieved = 0
+let NumOfArticles = 0
+let Posts = []
+service FCommunity on "127.0.0.1:8090" { //':debug': for debugging request
+  @route(url="/authentication/login/{username}/{password}", methods=["POST"])
+  fun login(writer, request) {
+    totalRequestsRecieved += 1
+    fmt.Println("\n[*] Request to LOGIN recieved!")
+    USERNAME , PASSWORD = vars["username"] , vars["password"]
+    RESPONCE = ""
+    SENDssid = ""
+    if USERNAME {
+        if USERNAME == "hamza" {
+            RESPONCE += "User Identified!..."
+            if PASSWORD == "hamza" {
+                fmt.Printf(" | Request Successfull! (User = %s)\n",USERNAME)
+                SENDssid = "3d5bd2cA15ef047689"
+                RESPONCE += "Password >> OKAY..."
+            } else {
+                fmt.Println(" | Request Failed! (Wrong Password)")
+                RESPONCE += "Wrong Password!..."
+            }
+        } else {
+            fmt.Println(" | Request Failed! (Wrong Username)")
+            RESPONCE += "User not Identified!..."
+        }
+    } else {
+        fmt.Println(" | Request Failed! (No Username)")
+        RESPONCE += "PLEASE PROVIDE A USERNAME!!!!"
+    }
+    println(' | SENDED: {RESPONCE}')
+    return { sessionId: SENDssid, _responce:RESPONCE } //same as above
+  }
+
+  @route(url="/post/article/{ssid}/{post}", methods=["POST"])
+  fun PostAnArticle(writer, request) {
+    NumOfArticles += 1
+    fmt.Println("\n[+] Request to `Post An Article` recieved! TOTAL = ",NumOfArticles)
+    
+    Ussid = vars["ssid"]
+    PostedArticle = vars["post"]
+
+    if Ussid == "3d5bd2cA15ef047689" {
+        fmt.Println(" | SSID Validated!")
+        Posts += PostedArticle
+        fmt.Println(" | Post: ",PostedArticle)
+        return {_responce:"Article Posted Successfully!"}
+    } else {
+        return {_responce:"Wrong SSID!"}
+    }
+    println(' | SENDED: {RESPONCE}')
+  }
+
+  @route(url="/get/article/all/{ssid}", methods=["GET"])
+  fun GetAllArticles(writer, request) {
+    fmt.Println("\n[+] Request to `Get All Articles`")
+
+    Ussid = vars["ssid"]
+
+    if Ussid == "3d5bd2cA15ef047689" {
+        fmt.Println(" | SSID Validated!")
+        fmt.Println(" | Sending Posts & Articles!")
+        return {_responce:"OK",posts:Posts}
+    }
+    println(' | SENDED: {RESPONCE}')
+  }
+}

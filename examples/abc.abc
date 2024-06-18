@@ -1,0 +1,3 @@
+gfmt.Println("hello worlds!")
+
+println(gmath.rand.Float64())
