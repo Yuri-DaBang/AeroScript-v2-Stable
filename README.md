@@ -2,6 +2,7 @@
 ## Summary
 
 🌟 **AeroScript**: A Versatile Custom Language Interpreter
+- NOTE: `AeroScript` will be mentained on `Fri3nds Group Org `at [Fri3nds Group](https://github.com/Fri3ndsGroup) 
 
 🛠️ **AeroScript** is a custom language interpreter crafted in Go. Boasting C-style syntax, it draws significant inspiration from Ruby, Python, Perl, and C#.
 
